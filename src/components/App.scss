@@ -1,0 +1,44 @@
+$header-h: 4rem;
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+ #header {
+
+   height: $header-h;
+   border-bottom: 1px solid gray;
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   z-index: 1;
+   background-color: white;
+   .left {
+     float: left;
+   }
+   .right {
+     float: right;
+   }
+   a {
+     text-decoration: none;
+     color: black;
+     width: $header-h;
+     height: $header-h;
+     line-height: $header-h;
+     display: block;
+     float: left;
+     text-align: center;
+     & > * {
+       vertical-align: middle;
+     }
+   }
+ }
+
+ #main {
+   padding-top: $header-h;
+ }

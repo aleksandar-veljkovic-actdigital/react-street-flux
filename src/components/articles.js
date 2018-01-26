@@ -46,9 +46,11 @@ class Articles extends Component {
 
     /** Converts numeric degrees to radians */
     if (typeof(Number.prototype.toRad) === "undefined") {
+      /*eslint-disable */
       Number.prototype.toRad = function() {
         return this * Math.PI / 180;
       }
+      /*eslint-enable */
     }
 
     this.getArticles();

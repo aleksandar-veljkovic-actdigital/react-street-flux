@@ -1,23 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
-import Articles from './components/articles';
+import { /*HashRouter,*/ BrowserRouter } from 'react-router-dom';
+
 import registerServiceWorker from './registerServiceWorker';
 
-import { BrowserRouter, Route } from 'react-router-dom';
+import './index.scss';
+
+import App from './components/App'
 
 ReactDOM.render(
   (
-    <React.Fragment>
-      <header>
-
-      </header>
-      <main>
-        <BrowserRouter>
-          <Route path="/" component={Articles}/>
-        </BrowserRouter>
-      </main>
-    </React.Fragment>
+    <BrowserRouter>
+      <App/>
+    </BrowserRouter>
   )
   , document.getElementById('root')
 );
