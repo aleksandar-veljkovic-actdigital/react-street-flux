@@ -8,9 +8,16 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 ReactDOM.render(
   (
-    <BrowserRouter>
-      <Route path="/" component={Articles}/>
-    </BrowserRouter>
+    <React.Fragment>
+      <header>
+
+      </header>
+      <main>
+        <BrowserRouter>
+          <Route path="/" component={Articles}/>
+        </BrowserRouter>
+      </main>
+    </React.Fragment>
   )
   , document.getElementById('root')
 );
