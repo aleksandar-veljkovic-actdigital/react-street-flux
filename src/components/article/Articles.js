@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
+
+import ArticleStore from "./ArticleStore";
+import * as RequestActions from "../../actions/RequestActions"
 
 
 const Styled = styled.div`
@@ -12,9 +14,9 @@ const Styled = styled.div`
     text-align: center;
   }
   article {
-    border-bottom: 2px solid #ddd;
-    margin-bottom: 2px;
-    padding-bottom: 2px;
+    //border-bottom: 2px solid #ddd;
+    //margin-bottom: 2px;
+    //padding-bottom: 2px;
     position: relative;
     h3 {
       color: white;
@@ -35,34 +37,35 @@ class Articles extends Component {
 
   constructor(props) {
     super(props);
+    this.setArticles = this.setArticles.bind(this)
     this.state = {
       title: "Street Arts by Proximity",
       latitude: false,
       longitude: false,
-      articles: [
-
-      ]
+      articles: []
     };
-
-    /** Converts numeric degrees to radians */
-    if (typeof(Number.prototype.toRad) === "undefined") {
+    if (typeof(Number.prototype.toRad) === "undefined") { /** Converts numeric degrees to radians */
       /*eslint-disable */
       Number.prototype.toRad = function() {
         return this * Math.PI / 180;
       }
       /*eslint-enable */
     }
-
-    this.getArticles();
-
+    window.__articles = this;
+    RequestActions.articlesFetch();
   }
 
-  getArticles(e){
-    axios.get(`https://www.street.rs/react/views/thums_grid.json?display_id=locator&lat=${this.state.latitude}&lon=${this.state.longitude}`)
-      .then(response => {
-        const articles = response.data;
-        this.setState({articles});
-      })
+  componentWillMount() {
+    ArticleStore.on('change', this.setArticles)
+  }
+
+  componentWillUnmount() {
+    ArticleStore.removeListener("change", this.setArticles);
+  }
+
+  setArticles(){
+    console.log('articleStore CHANGE')
+    this.setState({articles: ArticleStore.get()});
   }
 
   caluclateDistance(lat1, lon1){
@@ -97,17 +100,13 @@ class Articles extends Component {
         <h1>{this.state.title}</h1>
         <section>
           {this.state.articles.map((article, i) =>
-
             <article key={i}>
-
               {/*<h3>{article.title}</h3>*/}
               <h3>{this.caluclateDistance(article.lat, article.lon)}</h3>
-
               <img className="thumbnail" src={article.photos}
                 srcSet={`${article.photos_s} 575w, ${article.photos_m} 767w,
                 ${article.photos_l} 1024w`} alt="" />
             </article>
-
           )}
         </section>
       </Styled>
